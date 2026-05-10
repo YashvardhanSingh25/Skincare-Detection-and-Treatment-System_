@@ -1,0 +1,90 @@
+====================================================================
+GLOWAI - COMPREHENSIVE SYSTEM ARCHITECTURE & IMPLEMENTATION DETAILS
+====================================================================
+
+This document provides a deep, technical breakdown of how GlowAi is built, how the different technology stacks interact with each other, and the precise flow of data and advanced mathematical logic throughout the system.
+
+--------------------------------------------------
+1. HIGH-LEVEL SYSTEM ARCHITECTURE
+--------------------------------------------------
+GlowAi operates on a microservices-inspired architecture divided into three main components:
+1. Client Interface (Frontend): React.js
+2. API Gateway & Business Logic (Backend): Node.js + Express.js
+3. AI & Image Processing Engine (Model API): Python + Flask + TensorFlow
+
+How they connect:
+When a user interacts with the Frontend, it sends HTTP requests to the Node.js Backend. If the request involves database storage, the Backend handles it via SQLite. If the request involves analyzing an image, the Node.js Backend securely forwards the image to the Python Model API running on port 5001, which returns the machine learning predictions back to the Node server. The Node server synthesizes this data, queries the Groq LLM API for dynamic routines, and sends the final response to the Frontend.
+
+--------------------------------------------------
+2. FRONTEND IMPLEMENTATION (React.js + Tailwind)
+--------------------------------------------------
+The frontend is designed to be highly interactive, modern, and responsive.
+
+* Core Framework: Built with React.js using Vite for extremely fast hot-module reloading and optimized production builds.
+* Styling: Tailwind CSS is used extensively. The UI utilizes "Glassmorphism" (semi-transparent backgrounds with backdrop blur) and smooth gradients to create a premium, medical-tech aesthetic.
+* Animations: Framer Motion handles complex animations. Elements smoothly slide into view, buttons scale on hover, and route transitions are seamless.
+* Data Visualization: Recharts is used in the Dashboard to render the "30-Day Progress History" area chart.
+* State Management: React Hooks (useState, useEffect) manage local state, keeping track of daily routine checklists and updating the circular progress bar dynamically.
+
+--------------------------------------------------
+3. BACKEND IMPLEMENTATION (Node.js + Express + DB)
+--------------------------------------------------
+The Node.js server acts as the central brain of the application.
+
+* Server Framework: Express.js provides routing architecture (`/api/schedule`, `/api/chat`, `/api/scan`).
+* Database: Uses SQLite to store persistent data. 
+  - Stored Data Includes: User profiles, historical scan data, overall health metrics, scan counts, and serialized arrays of day-1 and current-day image paths.
+* Privacy & Security: The `/api/schedule` DELETE endpoint not only purges database records but uses the `fs` module to execute a hard-delete of the physical image files on the server, ensuring absolute user privacy. `secure_filename` is strictly enforced to prevent directory traversal attacks.
+* Groq LLM Integration: The backend communicates with the Groq API (a fast AI inference engine) to power two features:
+  1. The Chat Assistant: Relays messages to the LLM with a hidden system prompt instructing it to act as an expert dermatologist.
+  2. Routine Generation: Dynamically builds a prompt containing the user's age, skin type, and detected disease to generate a JSON-formatted Morning and Night routine.
+
+--------------------------------------------------
+4. ADVANCED MACHINE LEARNING ENGINE (Python + TensorFlow)
+--------------------------------------------------
+The AI Model (`load_model.py`) is the most computationally advanced component of the system. It handles mathematical predictions, progress tracking, and anti-cheat validation.
+
+* Image Preprocessing: OpenCV (cv2) and Pillow (PIL) resize images to 224x224 and normalize pixel values (0-1).
+* Neural Network Core: A pre-trained Deep Learning CNN (`skin_model.keras`) extracts visual features and classifies them into 6 categories (Acne, Blackheads, Dark spots, Normal, Pores, Wrinkles).
+
+* 🔹 THE FINE-TUNING DICTIONARY (DISEASE_PARAMS):
+  Because every skin disease behaves differently visually, the model uses a dynamic parameter dictionary for prediction:
+  - Acne: Highly color-dependent (Redness).
+  - Dark Spots: Purely pigmentation. Uses 80% color weighting.
+  - Wrinkles/Pores: Purely structural. Uses 90% Deep Embedding (texture) weighting.
+  This dictionary controls `threshold`, `noise_split`, and `hist_weight` tailored specifically to the user's diagnosed condition.
+
+* 🔹 THE ANTI-CHEAT IDENTITY CHECK (Similarity Score):
+  To ensure a user doesn't scan a different person's face to artificially boost their health score, the system runs an identity check:
+  1. Deep Embeddings: Extracts 1280-dimensional feature vectors to verify jawline and facial structure using Cosine Similarity.
+  2. Color Histograms: Uses OpenCV to extract RGB histograms to verify skin tone correlation.
+  It combines these using the disease-specific `hist_weight` to output a definitive Similarity Score.
+
+* 🔹 CONTEXT-AWARE PROGRESS TRACKING (The 50/50 Healing Split):
+  When tracking progress, Softmax CNNs often hallucinate false diseases (e.g., misinterpreting fading acne marks as "Wrinkles").
+  - The engine mathematically intercepts these hallucinations.
+  - It takes the probability of any "fake" disease and splits it exactly 50/50 between "Normal" and the "Tracked Disease".
+  - This perfectly mimics the state of "healing skin" (halfway between diseased and clear), preventing erratic jumps in diagnosis.
+
+* 🔹 BASELINE HEALTH MAPPING (Closeness to Normal):
+  Deep Learning models often output 0.01% "Normal" probability for severe acne, which is demoralizing for a user.
+  - The engine utilizes a custom exponentiation curve mapping: `0.40 + (raw_val ** 0.4) * 0.60`.
+  - This guarantees that even the absolute worst skin condition starts at a 40% Baseline Health Score (because it is still fundamentally human skin).
+  - As the skin clears, the curve smoothly accelerates the score up to 100%, providing a highly satisfying and mathematically sound progression metric.
+
+--------------------------------------------------
+5. DETAILED DATA FLOW (The "Quick Scan" Feature)
+--------------------------------------------------
+1. Capture: User uploads an image on the React Frontend.
+2. Transmission: React sends the image via `FormData` to Node.js.
+3. Identity Relay: Node.js securely forwards the image to Python.
+4. AI Pipeline:
+   - Python compares the new image to the user's Day 1 image.
+   - It calculates the Similarity Score (rejects if fake).
+   - It calculates the AI Prediction using the 50/50 Healing Split.
+   - It calculates the Health Score using the Baseline Mapping.
+   - It enforces Smart Thresholding (e.g., locking the prediction to "Acne" if residual marks are >5%).
+5. Return: Python returns JSON to Node.js.
+6. Routine Gen: Node.js asks Groq for a routine if the disease has shifted.
+7. Database Save: Node.js updates the SQLite DB.
+8. UI Update: Frontend visualizes the complex metrics beautifully.

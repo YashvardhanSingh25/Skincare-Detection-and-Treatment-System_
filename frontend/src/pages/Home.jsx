@@ -209,7 +209,7 @@ const Home = () => {
         {/* Massive Typography at the top of the footer */}
         <div className="w-full flex justify-center mt-auto pb-10 px-4 overflow-hidden">
           <h1 className="text-[18vw] leading-[0.8] font-medium text-[#1A1A1A] tracking-tighter select-none">
-            Dermalyzer
+            GlowAi
           </h1>
         </div>
 
@@ -221,7 +221,7 @@ const Home = () => {
               <div className="w-8 h-8 bg-[#00A884] rounded-lg flex items-center justify-center text-white shadow-sm">
                 <Sparkles size={16} fill="currentColor" />
               </div>
-              <span className="text-lg font-black text-gray-900 uppercase tracking-widest">Dermalyzer</span>
+              <span className="text-lg font-black text-gray-900 uppercase tracking-widest">GlowAi</span>
             </div>
 
             {/* Links in the middle */}
@@ -232,7 +232,7 @@ const Home = () => {
             </div>
 
             {/* Copyright on the right */}
-            <p className="text-sm font-bold text-gray-400">© 2026 Dermalyzer.</p>
+            <p className="text-sm font-bold text-gray-400">© 2026 GlowAi.</p>
           </div>
         </div>
       </footer>

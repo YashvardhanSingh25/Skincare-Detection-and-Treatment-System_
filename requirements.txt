@@ -1,0 +1,44 @@
+# ==========================================
+# GlowAi Project Dependencies
+# ==========================================
+
+# 1. PYTHON MODEL DEPENDENCIES
+# Directory: /models
+# Install via: pip install -r requirements.txt
+flask
+flask-cors
+werkzeug
+numpy
+opencv-python
+pillow
+tensorflow<2.22,>=2.21
+tf-keras~=2.16
+groq
+python-dotenv
+
+# ==========================================
+# 2. BACKEND NODE.JS DEPENDENCIES
+# Directory: /backend
+# Install via: cd backend && npm install
+# Note: Do not run pip install on these.
+# 
+# Main Packages:
+# - express
+# - cors
+# - mongoose
+# - mongodb-memory-server
+# - sqlite & sqlite3
+
+# ==========================================
+# 3. FRONTEND REACT DEPENDENCIES
+# Directory: /frontend
+# Install via: cd frontend && npm install
+# Note: Do not run pip install on these.
+# 
+# Main Packages:
+# - react & react-dom
+# - react-router-dom
+# - framer-motion
+# - lucide-react
+# - recharts
+# - tailwindcss & postcss

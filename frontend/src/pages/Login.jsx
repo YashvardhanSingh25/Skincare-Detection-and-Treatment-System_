@@ -113,7 +113,7 @@ const Login = () => {
             <div className="w-12 h-12 bg-teal-600 rounded-2xl flex items-center justify-center text-white group-hover:rotate-12 transition-transform">
               <Sparkles size={24} />
             </div>
-            <span className="text-2xl font-black text-gray-900 uppercase tracking-tighter">Dermalyzer</span>
+            <span className="text-2xl font-black text-gray-900 uppercase tracking-tighter">GlowAi</span>
           </Link>
           <h1 className="text-3xl font-black text-gray-900 mb-3">
             {isLogin ? 'Welcome Back' : 'Create Account'}

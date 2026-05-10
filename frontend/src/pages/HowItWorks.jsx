@@ -46,7 +46,7 @@ const HowItWorks = () => {
               How it <span className="text-[#00A884]">Works</span>
             </motion.h1>
             <p className="text-xl text-gray-500 leading-relaxed">
-              Dermalyzer uses state-of-the-art Artificial Intelligence to help you understand your skin health in seconds.
+              GlowAi uses state-of-the-art Artificial Intelligence to help you understand your skin health in seconds.
             </p>
           </div>
           {/* Platform Overview */}
@@ -60,7 +60,7 @@ const HowItWorks = () => {
               <div>
                 <h2 className="text-3xl font-bold text-gray-900 mb-6">What We Provide</h2>
                 <p className="text-gray-600 leading-relaxed mb-6">
-                  Dermalyzer is an advanced AI-powered dermatology assistant designed to help you take control of your skin health. We provide users with instant, clinical-grade skin analysis right from the comfort of their home without needing expensive equipment.
+                  GlowAi is an advanced AI-powered dermatology assistant designed to help you take control of your skin health. We provide users with instant, clinical-grade skin analysis right from the comfort of their home without needing expensive equipment.
                 </p>
                 <p className="text-gray-600 leading-relaxed">
                   Whether you are struggling with acne, concerned about dark spots, or simply want to build a perfect daily routine, our platform bridges the gap between everyday skincare and professional dermatological insights by generating tailored morning and night routines based on your unique scan.

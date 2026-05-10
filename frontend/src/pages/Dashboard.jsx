@@ -154,7 +154,7 @@ const Dashboard = () => {
           className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12"
         >
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 capitalize">Welcome back, {localStorage.getItem("userName") || "Guest"}! 👋</h1>
+            <h1 className="text-3xl font-bold text-gray-900 capitalize">Welcome back, {localStorage.getItem("userName") || "Guest"}!</h1>
             <p className="text-gray-500 mt-1">Here's your skin health overview for today.</p>
           </div>
         </motion.div>

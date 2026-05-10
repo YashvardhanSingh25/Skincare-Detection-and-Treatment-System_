@@ -34,12 +34,12 @@ const AboutSection = () => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-sm font-bold text-[#00A884] uppercase tracking-[0.3em] mb-6">About Dermalyzer</h2>
+            <h2 className="text-sm font-bold text-[#00A884] uppercase tracking-[0.3em] mb-6">About GlowAi</h2>
             <h3 className="text-5xl font-extrabold text-gray-900 leading-tight mb-8">
               Pioneering the future of <span className="text-[#00A884]">digital dermatology</span>
             </h3>
             <p className="text-xl text-gray-500 leading-relaxed mb-10">
-              Dermalyzer combines cutting-edge computer vision with decades of dermatological expertise to provide instant, accurate skin analysis from your smartphone.
+              GlowAi combines cutting-edge computer vision with decades of dermatological expertise to provide instant, accurate skin analysis from your smartphone.
             </p>
           </motion.div>
 

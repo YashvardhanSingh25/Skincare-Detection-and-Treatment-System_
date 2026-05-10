@@ -39,7 +39,7 @@ const Navbar = () => {
               </svg>
             </div>
             <span className="text-[24px] font-black tracking-tight text-[#1A202C] uppercase font-sans">
-              Dermalyzer
+              GlowAi
             </span>
           </div>
 

@@ -1,0 +1,29 @@
+GlowAi (Skincare Detection and Treatment System) - How It Works
+
+1. User Registration & Dashboard: 
+Users securely log into the platform to access their personalized dashboard. This dashboard is the central hub that tracks their skin health progress over a 30-day period. It visually displays their "Closeness to Normal" health score, average improvement, and daily routine compliance.
+
+2. AI Skin Scan (The Baseline "Day 1" Scan): 
+The user uploads an image of their face (Left, Middle, Right) or specific body parts through the "Quick Scan" feature. The image is securely sent to the Python Flask backend. This first scan acts as the "Day 1 Anchor". The AI identifies the primary skin condition (e.g., Acne, Dark Spots, Wrinkles) and locks this in as the target disease to track for the next 30 days.
+
+3. Disease Detection & Advanced Analysis Engine: 
+The Python-based AI model (built with TensorFlow/Keras) analyzes the image using a highly customized evaluation pipeline:
+   - Deep Learning Predictions: The CNN classifies the skin into categories (Acne, Blackheads, Dark spots, Pores, Wrinkles, Normal).
+   - Fine-Tuned Disease Parameters (DISEASE_PARAMS): Every disease has unique, hardcoded mathematical weights tailored to its specific visual nature (e.g., Acne relies 60% on color, while Wrinkles relies 90% on physical structure/embeddings).
+   - Identity Check (Similarity Score): To prevent users from cheating the progress tracker by scanning someone else's face, the AI calculates a Similarity Score. It extracts Deep Facial Embeddings (for structure/jawline) and Color Histograms (for skin tone) and compares the Current scan against the Day 1 scan. If the score is too low, the system rejects the scan.
+
+4. Progress Tracking (The "Quick Scan" Updates):
+When a user does a follow-up scan on Day 5 or Day 15, the AI uses advanced mathematical logic to measure real improvement:
+   - The 50/50 Healing Split: If the AI gets confused by fading acne marks and hallucinates a fake disease (like "Pores" or "Wrinkles"), it recognizes this as "healing skin". It mathematically splits the hallucinated probability 50/50 between "Normal" and the "Day 1 Disease". This prevents false disease changes and guarantees the tracker strictly measures the original issue.
+   - Smart Disease Thresholding: Some diseases are stubborn. The system uses a specific threshold (e.g., 5% for Acne, 10% for Wrinkles). If the disease probability is above this threshold, the tracker will still report the skin as "Diseased", preventing a premature "Normal" diagnosis just because the skin looks slightly better.
+   - Baseline Health Score Mapping: Softmax AI models often give harsh "0%" probabilities for severe conditions. To provide a realistic and encouraging user experience, the system maps the "Closeness to Normal" score to a guaranteed 40% baseline. Even the worst skin condition starts at 40% health, smoothly curving up to 100% as the skin fully clears.
+
+5. Personalized Treatment Generation: 
+Based on the AI's diagnosis, the user's skin type, and age group, the Node.js backend dynamically constructs a prompt and sends it to a Generative AI (Groq API). The LLM formulates a highly tailored, day-by-day skincare routine (Morning & Night) specifically designed to treat the identified issue.
+
+6. Routine Tracking & Database Management: 
+The generated routine is saved to the user's SQLite/MongoDB dashboard. Users can check off daily steps (e.g., Cleanser, Moisturizer, SPF). The backend records the scan counts, health scores, and improvement metrics. 
+   - Privacy & Deletion: If a user clicks "Delete All Data", the backend performs a hard-delete, wiping all database records AND permanently deleting the physical image files from the server's hard drive to ensure complete privacy.
+
+7. AI Chat Assistant: 
+A built-in AI dermatology assistant (ChatScholar) powered by Groq is available. Users can chat with it to ask specific questions about their skin condition, get product recommendations, or clarify steps in their generated routine.
